@@ -248,9 +248,17 @@ public final class ConnectorUtils {
             if (wifiConfig.networkId == config.networkId)
                 result = wifiManager.enableNetwork(wifiConfig.networkId, true);
             else
-                wifiManager.disableNetwork(wifiConfig.networkId);
+                disableNetwork(wifiManager, wifiConfig.networkId);
         wifiLog("disableAllButOne " + result);
         return result;
+    }
+
+    private static void disableNetwork(@NonNull final WifiManager wifiManager, int networkId) {
+        String manufacturer = "xiaomi";
+
+        if (!manufacturer.equalsIgnoreCase(Build.MANUFACTURER)) {
+            wifiManager.disableNetwork(networkId);
+        }
     }
 
 
@@ -264,7 +272,7 @@ public final class ConnectorUtils {
             if (Objects.equals(scanResult.BSSID, wifiConfig.BSSID) && Objects.equals(scanResult.SSID, trimQuotes(wifiConfig.SSID)))
                 result = wifiManager.enableNetwork(wifiConfig.networkId, true);
             else
-                wifiManager.disableNetwork(wifiConfig.networkId);
+                disableNetwork(wifiManager, wifiConfig.networkId);
         return result;
     }
 
